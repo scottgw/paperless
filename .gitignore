@@ -1,5 +1,4 @@
 *.pyc
 paperless.egg-info
 *~
-edit_dialog_ui.py
-paperless_ui.py
+*_ui.py
