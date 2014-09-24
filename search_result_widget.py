@@ -12,67 +12,40 @@ class QPaperlessDoc(QtGui.QWidget):
         self.ui = document_ui.Ui_Form()
         self.ui.setupUi(self)
 
-class DocumentImageProvider(QDeclarativeImageProvider):
-    def __init__(self, images=[]):
-        super(QDeclarativeImageProvider,
-              self).__init__(QDeclarativeImageProvider.Image)
+# class DocumentImageProvider(QDeclarativeImageProvider):
+#     def __init__(self, images=[]):
+#         super(QDeclarativeImageProvider,
+#               self).__init__(QDeclarativeImageProvider.Image)
 
-        self.images = images
+#         self.images = images
 
-    def add_pdf(self, filename):
-        pdf = Poppler.Document.load(filename)
-        pdf.setRenderHint(Poppler.Document.TextAntialiasing)
-        for pageNum in xrange(pdf.numPages()):
-            page = pdf.page(pageNum)
-            self.images.append(page.renderToImage())
+#     def add_pdf(self, filename):
+#         pdf = Poppler.Document.load(filename)
+#         pdf.setRenderHint(Poppler.Document.TextAntialiasing)
+#         for pageNum in xrange(pdf.numPages()):
+#             page = pdf.page(pageNum)
+#             self.images.append(page.renderToImage())
 
-    def load_from_document(self, repo, doc):
-        import os.path
-        import time
+#     def load_from_document(self, repo, doc):
+#         import os.path
+#         import time
 
-        now = time.time()
+#         now = time.time()
 
-        for repofile in doc.repo_files:
-            path = repo.file_path(repofile)
-            _, ext = os.path.splitext(path)
+#         for repofile in doc.repo_files:
+#             path = repo.file_path(repofile)
+#             _, ext = os.path.splitext(path)
 
-            if ext == '.pdf':
-                self.add_pdf(path)
-            else:
-                print 'extension', ext
-                assert False
+#             if ext == '.pdf':
+#                 self.add_pdf(path)
+#             else:
+#                 print 'extension', ext
+#                 assert False
 
-        print 'time elapsed', time.time() - now
+#         print 'time elapsed', time.time() - now
 
-    def clear(self):
-        self.images = []
+#     def clear(self):
+#         self.images = []
 
-    def requestImage(self, idx, size, requestedSize):
-        return self.images[int(idx)]
-
-class SearchResultWidget:
-    def __init__(self, view, results=[]):
-        # an explicit reference to the provider has to be maintained
-        # else a segfault ensues (collected prematurely I assume)
-        self.img_provider = DocumentImageProvider()
-
-        self.view = view # QDeclarativeView(self)
-        self.results = results
-
-
-    def new_results(self, repo, docs):
-        self.img_provider.clear()
-
-        for doc in docs:
-            self.img_provider.load_from_document(repo, doc)
-
-        self.update_document_model()
-
-    def update_document_model(self):
-        index_list = QtCore.QStringList()
-
-        for i in xrange(len(self.img_provider.images)):
-            index_list.append(str(i))
-
-        ctx = self.view.engine().rootContext()
-        ctx.setContextProperty('documentModel', index_list)
+#     def requestImage(self, idx, size, requestedSize):
+#         return self.images[int(idx)]
