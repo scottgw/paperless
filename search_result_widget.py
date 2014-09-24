@@ -4,6 +4,14 @@ from PyQt4.QtDeclarative import QDeclarativeView, QDeclarativeImageProvider
 
 from popplerqt4 import Poppler
 
+import document_ui
+
+class QPaperlessDoc(QtGui.QWidget):
+    def __init__(self, doc, parent=None):
+        QtGui.QWidget.__init__(self, parent)
+        self.ui = document_ui.Ui_Form()
+        self.ui.setupUi(self)
+
 class DocumentImageProvider(QDeclarativeImageProvider):
     def __init__(self, images=[]):
         super(QDeclarativeImageProvider,
@@ -43,8 +51,6 @@ class DocumentImageProvider(QDeclarativeImageProvider):
         return self.images[int(idx)]
 
 class SearchResultWidget:
-    qml_location = 'paperless.qml'
-
     def __init__(self, view, results=[]):
         # an explicit reference to the provider has to be maintained
         # else a segfault ensues (collected prematurely I assume)
@@ -53,14 +59,6 @@ class SearchResultWidget:
         self.view = view # QDeclarativeView(self)
         self.results = results
 
-        engine = self.view.engine()
-        engine.addImageProvider('document_images', self.img_provider)
-
-        ctx = engine.rootContext()
-        ctx.setContextProperty('documentModel', QtCore.QStringList())
-
-        self.view.setSource(QUrl(SearchResultWidget.qml_location))
-        self.view.setResizeMode(QDeclarativeView.SizeRootObjectToView)
 
     def new_results(self, repo, docs):
         self.img_provider.clear()

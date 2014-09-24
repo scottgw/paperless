@@ -5,7 +5,7 @@ from PyQt4 import QtGui, QtCore
 from paperless_ui import Ui_MainWindow
 from edit_dialog_ui import Ui_Dialog
 
-from search_result_widget import SearchResultWidget
+from search_result_widget import SearchResultWidget, QPaperlessDoc
 from search_controller import SearchController
 from repository import Repository
 from settings import Settings
@@ -76,6 +76,7 @@ class PaperlessWindow(QtGui.QMainWindow):
         self.ui.setupUi(self)
 
         self.ui.actionOpen.triggered.connect(self.openFile)
+        self.docview = QPaperlessDoc(None, self)
         self.search_result_widget = SearchResultWidget(self.ui.search_view)
         self.search_controller = SearchController(self.search_result_widget,
                                                   self.ui.search_line,
