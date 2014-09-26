@@ -19,17 +19,19 @@ class PaperlessWindow(QtGui.QMainWindow):
 
         self.repo = Repository(self.settings.getDataDir())
 
-        self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        ui = Ui_MainWindow()
+        self.ui = ui
 
-        self.ui.actionOpen.triggered.connect(self.openFile)
+        ui.setupUi(self)
 
-        self.search_controller = SearchController(self.ui.search_result_box,
-                                                  self.ui.search_line,
+        ui.actionOpen.triggered.connect(self.openFile)
+
+        self.search_controller = SearchController(ui.search_result_box,
+                                                  ui.search_line,
                                                   self.repo)
 
-        self.ui.clear_button.pressed.connect(self.search_controller.clear)
-        self.ui.add_button.pressed.connect(self.show_dialog)
+        ui.clear_button.pressed.connect(self.search_controller.clear)
+        ui.add_button.pressed.connect(self.show_dialog)
 
     def _set_data_dir(self):
         import os.path

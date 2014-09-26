@@ -1,12 +1,10 @@
-class SearchController:
-    def __init__(self, result_view, search_string_view, repo):
-        assert repo
-        assert result_view
-        assert search_string_view
+from search_result_widget import QPaperlessDoc
 
+class SearchController:
+    def __init__(self, result_box, search_string_view, repo):
         self.search_string = ""
         self.repo = repo
-        self.result_view = result_view
+        self.result_box = result_box
         self.search_string_view = search_string_view
 
         self.search_string_view.returnPressed.connect(self.update_search)
@@ -17,8 +15,10 @@ class SearchController:
     def new_search(self, search_string):
         matches = self.repo.search_keywords(search_string)
 
-        self.result_view.new_results(self.repo, matches)
+        for match in matches:
+            pdoc = QPaperlessDoc(self.repo, match, self.result_box)
+            self.result_box.layout().addWidget(pdoc)
 
     def clear(self):
         self.search_string_view.setText('')
-        self.result_view.new_results(self.repo, [])
+        self.result_box

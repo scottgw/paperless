@@ -72,9 +72,17 @@
               <x>0</x>
               <y>0</y>
               <width>672</width>
-              <height>367</height>
+              <height>365</height>
              </rect>
             </property>
+            <property name="layoutDirection">
+             <enum>Qt::LeftToRight</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_3"/>
+             </item>
+            </layout>
            </widget>
           </widget>
          </item>
@@ -91,7 +99,7 @@
      <x>0</x>
      <y>0</y>
      <width>712</width>
-     <height>27</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
